@@ -35,7 +35,7 @@ KCB 3	  Lake Magic II, W. Australia	  15 Jan. 2015	  5	                yellow	  
 2. R for statistical analysis and making figures
 
 #### Implementation
-I will create a bash script that will clean up incoming data. This script will merge field data (text file) and lab analysis (excel file). It will standardize units, as some are reported in mg/L and others are in ug/L. Another bash script will pull seawater data from NOAA WOD for comparison. In R, I will make a script for basic statistical analysis and create plots that will allow us to visually examine correlations between certain ions and pH, and the difference of ions in seawater and lake water. 
+I will create a bash script that will clean up incoming data. This script will merge field data (text file) and lab analysis (excel file)[see note]. It will standardize units, as some are reported in mg/L and others are in ug/L. Another bash script will pull seawater data from NOAA WOD for comparison. In R, I will make a script for basic statistical analysis and create plots that will allow us to visually examine correlations between certain ions and pH, and the difference of ions in seawater and lake water. 
 
 #### Expected Products
 1. Basic statistical analysis: summary text file and script that can be run again if new data is obtained
