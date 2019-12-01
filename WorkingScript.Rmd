@@ -1,8 +1,50 @@
-WV
-Mon
-cheat lake
-I dont know rivers
-test this out
+### config data
 ```{r}
-testVariable <- c(1, 2, 3, 4)
+LabData <- read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv")
+LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv"), header= FALSE, sep= ",", dec = ".", col.names = NULL, stringsAsFactors = FALSE)
+
 ```
+
+
+### Site Map for Australia Lakes
+```{r}
+library("ggplot2")
+theme_set(theme_bw())
+library("sf")
+library("rnaturalearth")
+library("rnaturalearthdata")
+library("rgeos")
+library("ggspatial")
+library("maps")
+library("lwgeom") 
+library("oz") #install necessary packages for site map ----- I dont need all of these
+```
+
+
+```{r}
+ site_id <- c("Gneiss Lake", "Lake Magic", "Lake Aerodrome", "Twin Lake West")
+     siteLongs/lats <- FieldData[FieldData$Sample == c("KCB 1", "KCB 2", "KCB 4", "KCB 5"), ]$Latitude
+     siteLats/longs <- FieldData[FieldData$Sample == c("KCB 1", "KCB 2", "KCB 4", "KCB 5"), ]$Latitude
+     sites <- as.data.frame(cbind(site_id, siteLongs, siteLats))
+```
+
+```{r}
+ggplot(data = world) +
+    geom_sf() +
+    geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, 
+        shape = 16, color = "darkred") +
+    coord_sf(xlim = c(111, 130), ylim = c(-13, -35), expand = FALSE)
+```
+
+
+```{r}
+(sites <- st_as_sf(sites, coords = c("longitude", "latitude"), 
+    crs = 3112, agr = "constant"))
+
+ggplot(data = world) +
+    geom_sf() +
+    geom_sf(data = sites, size = 4, shape = 16, color = "darkred") +
+    coord_sf(xlim = c(-81, -73), ylim = c(36, 41), expand = FALSE) +
+    geom_sf_label(data=sites, aes(label = site_id), nudge_y = 0.3) +
+    coord_sf(xlim = c(-83, -77), ylim = c(37, 41), expand = FALSE)
+```     

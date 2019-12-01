@@ -4,12 +4,22 @@ Project outline
 
 ### read in files
 
+
+
+
+#### clean up data
+## delete some unnecessary rows/columns
+## standardize units
+## remove values below threshold and replace with NA
+## 
+
 ### merge .csv files
 
 
-### clean up data
+#### Create summary data file
+## able to get summary by subsetting data. ex: find avg pH of lakes in Australia; analyze major ions of samples collected in year 2015; compare ion concentrations of a pH range.
 
-
+## create plots in the same way, choosing what to subset
 
 ### Figures
 Compare key ion plots

@@ -1,0 +1,12 @@
+"Sample","Location","Country","Year.Collected","Water.Depth..cm.","Water.Color","pH","Salinity...TDS.","Latitude","Longitude"
+"KCB 1","Gneiss Lake","Australia",2015,2.5,"Yellow",1.4,32,NA,NA
+"KCB 2","Lake Magic I","Australia",2015,2.5,"Yellow",2,30,NA,NA
+"KCB 3","Lake Magic II","Australia",2015,5,"Yellow",1.6,30,NA,NA
+"KCB 4","Lake Aerodrome","Australia",2009,1.2,"Yellow",1.8,29,NA,NA
+"KCB 5","Twin Lake West","Australia",2009,10,"Green",2.6,27,NA,NA
+"KCB 6","Salar Gorbea site 7","Chile",2009,1,"Clear",2.7,28,NA,NA
+"KCB 7","Salar Gorbea site 10","Chile",2007,2,"Pink",1.8,18,NA,NA
+"KCB 8","Salar Ignorado site 3","Chile",2007,10,"Clear",3.8,5,NA,NA
+"KCB 9","Saline Valley","USA",NA,NA,NA,NA,NA,NA,NA
+"KCB 10","Bonneville Salt Flats","USA",NA,NA,NA,NA,NA,NA,NA
+"KCB 11","Crosbie Lake","Canada",NA,NA,NA,NA,NA,NA,NA
