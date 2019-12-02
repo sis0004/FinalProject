@@ -2,6 +2,7 @@
 ```{r}
 LabData <- read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv")
 LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv"), header= FALSE, sep= ",", dec = ".", col.names = NULL, stringsAsFactors = FALSE)
+BasicLabData <- 
 
 ```
 
