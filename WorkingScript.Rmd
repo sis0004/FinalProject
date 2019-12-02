@@ -1,9 +1,13 @@
 ### config data
 ```{r}
+library(tidyverse)
+```
+
+```{r}
 LabData <- read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv")
 LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv"), header= FALSE, sep= ",", dec = ".", col.names = NULL, stringsAsFactors = FALSE)
-BasicLabData <- 
 
+BasicLabData <- LabData %>% select(Analyte.Symbol, Na, Si, Fe, As, Cu, Cl, Mg, Ca, K, Br, SO4) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
 ```
 
 
@@ -18,7 +22,7 @@ library("rgeos")
 library("ggspatial")
 library("maps")
 library("lwgeom") 
-library("oz") #install necessary packages for site map ----- I dont need all of these
+library("oz") #install necessary packages for site map ----- I dont need all of these??
 ```
 
 

@@ -7,16 +7,16 @@ I had to do some manual data entry in Excel to set up the field data in the form
 
 
 ```{r}
-FieldData <- data.frame("Sample" = c("KCB 1", "KCB 2", "KCB 3", "KCB 4", "KCB 5", "KCB 6", "KCB 7", "KCB 8", "KCB 9", "KCB 10", "KCB 11"),
-           "Location" = c("Gneiss Lake", "Lake Magic I", "Lake Magic II", "Lake Aerodrome", "Twin Lake West", "Salar Gorbea site 7", "Salar Gorbea site 10","Salar Ignorado site 3", "Saline Valley", "Bonneville Salt Flats", "Crosbie Lake"),
-           "Country" = c("Australia", "Australia", "Australia", "Australia", "Australia", "Chile", "Chile", "Chile", "USA", "USA", "Canada"),
-           "Year Collected" = c(2015, 2015, 2015, 2009, 2009, 2009, 2007, 2007, NA, NA, NA),
-           "Water Depth (cm)" = c(2.5, 2.5, 5, 1.2, 10, 1, 2, 10, NA, NA, NA),
-           "Water Color" = c("Yellow","Yellow", "Yellow", "Yellow", "Green", "Clear", "Pink", "Clear", NA, NA, NA),
-           "pH" = c(1.4, 2, 1.6, 1.8, 2.6, 2.7, 1.8, 3.8, NA, NA, NA),
-           "Salinity (%TDS)" = c(32, 30, 30, 29, 27, 28, 18, 5, NA, NA, NA),
-           "Latitude" = c(NA, NA,NA, NA, NA, NA, NA, NA,NA,NA,NA),
-           "Longitude" = c(NA, NA,NA, NA, NA, NA, NA, NA,NA,NA,NA),
+FieldData <- data.frame("Sample" = c(NA, NA, NA, NA, "KCB 1", "KCB 2", "KCB 3", "KCB 4", "KCB 5", "KCB 6", "KCB 7", "KCB 8", "KCB 9", "KCB 10", "KCB 11"),
+           "Location" = c(NA, NA, NA, NA, "Gneiss Lake", "Lake Magic I", "Lake Magic II", "Lake Aerodrome", "Twin Lake West", "Salar Gorbea site 7", "Salar Gorbea site 10","Salar Ignorado site 3", "Saline Valley", "Bonneville Salt Flats", "Crosbie Lake"),
+           "Country" = c(NA, NA, NA, NA, "Australia", "Australia", "Australia", "Australia", "Australia", "Chile", "Chile", "Chile", "USA", "USA", "Canada"),
+           "Year Collected" = c(NA, NA, NA, NA,2015, 2015, 2015, 2009, 2009, 2009, 2007, 2007, NA, NA, NA),
+           "Water Depth (cm)" = c(NA, NA, NA, NA,2.5, 2.5, 5, 1.2, 10, 1, 2, 10, NA, NA, NA),
+           "Water Color" = c(NA, NA, NA, NA,"Yellow","Yellow", "Yellow", "Yellow", "Green", "Clear", "Pink", "Clear", NA, NA, NA),
+           "pH" = c(NA, NA, NA, NA,1.4, 2, 1.6, 1.8, 2.6, 2.7, 1.8, 3.8, NA, NA, NA),
+           "Salinity (%TDS)" = c(NA, NA, NA, NA,32, 30, 30, 29, 27, 28, 18, 5, NA, NA, NA),
+           "Latitude" = c(NA, NA, NA, NA,NA, NA,NA, NA, NA, NA, NA, NA,NA,NA,NA),
+           "Longitude" = c(NA, NA, NA, NA,NA, NA,NA, NA, NA, NA, NA, NA,NA,NA,NA),
             stringsAsFactors = FALSE)
 
 write.csv(FieldData, "/Users/saraschredergomes/Desktop/GEOG693/FinalProject/FieldData.csv", row.names = FALSE)
