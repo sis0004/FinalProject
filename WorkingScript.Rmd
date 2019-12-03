@@ -37,10 +37,13 @@ BasicLabData <- LabData %>% select(Sample,Analyte.Symbol, Na, Si, Fe, As, Cu, Cl
 ```
 --- I think any calculations will have to be done of subsets of the data. Subset, change to numeric, execture calcualation, and then append the data frame. 
 
-Plot ideas: pH v. Al (each lake different color)
-            pH v. Si (each lake different color)
-            etc.
-            Maybe, for each lake plot pH v. series of rare earth elements to see if there is one that stands out?
+--- Making site map, need states for Australia - code?
+
+Plots: pH v. Al (each lake different color)
+        pH v. Si (each lake different color)
+        etc.
+        Maybe, for each lake plot pH v. series of rare earth elements to see if there is one that stands out?
+        Using base R: Dot plots? http://www.sthda.com/english/wiki/dot-charts-r-base-graphs
 
 ```{r} 
 #merge LabData and FieldData to one df
@@ -50,9 +53,10 @@ TestMerge <- merge(FieldData, BasicLabData, by.x = "Sample", by.y = "Sample")
 ```
 
 Make df and pull seawater data
+Compare to LabData in plot
 
 
-
+-------------------------------------------------------------------------------------
 
 ### Site Map for Australia Lakes
 ```{r}
