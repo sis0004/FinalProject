@@ -2,6 +2,7 @@
 ```{r}
 library(tidyverse)
 library(base)
+library(ggplot2)
 ```
 
 ### Enter Field data
@@ -64,19 +65,13 @@ for (col in colnames(LabData)){
 
 
 ```{r}
-MajorIonLabData <- LabData %>% select(Sample,Analyte.Symbol, Na, Si, Fe, As, Cu, Cl, Mg, Ca, K, Br, SO4) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
-
-
-for (col in colnames(LabData)){
-    #create variable of uom
-    #determine multiplier
-    #create variable of multiplied value
-    #
-}
+MajorIonLabData <- LabData %>% select(Sample,Analyte.Symbol, Na, Si, Fe, Al, Cl, Mg, Ca, K, Br, SO4) 
+#choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
 ```
 
 ```{r}
-REELabData <- LabData %>% select(Sample,Analyte.Symbol, Ce, Dy, Er, Eu, Gd, Ho, La, Lu, Nd, Pr, Sm, Sc,Tb, Tm, Yb, Y) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
+REELabData <- LabData %>% select(Sample,Analyte.Symbol, Ce, Dy, Er, Eu, Gd, Ho, La, Lu, Nd, Pr, Sm, Sc,Tb, Tm, Yb, Y) 
+#choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
 ```
 
 
@@ -84,21 +79,52 @@ REELabData <- LabData %>% select(Sample,Analyte.Symbol, Ce, Dy, Er, Eu, Gd, Ho, 
 ```{r} 
 #merge LabData and FieldData to one df
 #to be done after unit conversions
-# need a fix to include samples 9-11?
-TestMerge <- merge(FieldData, BasicLabData, by.x = "Sample", by.y = "Sample")
+# need a fix to include samples 9-11? no; only interested in acid saline lakes
+TestMerge <- merge(FieldData, MajorIonLabData, by.x = "Sample", by.y = "Sample")
 ```
 
 
 --- Making site map, need states for Australia - code?
 
-Plots: pH v. Al (each lake different color)
-        pH v. Si (each lake different color)
+### pH vs. Al scatter plot using ggplot2
+
+I want to see how it looks if you have Fe, Al, and Si vs. pH where they get different colors
+
+----Get rid of NA value in plot
+----add labels, make scales look nicer
+        -------something is funky with y-axis 
+
+Plots: pH v. Al 
+        pH v. Si 
         etc.
         Maybe, for each lake plot pH v. series of rare earth elements to see if there is one that stands out?
-        Using base R: Dot plots? http://www.sthda.com/english/wiki/dot-charts-r-base-graphs
+### USE THIS? Using base R: Dot plots? http://www.sthda.com/english/wiki/dot-charts-r-base-graphs
+
+```{r}
+# Create basic scatter plot
+ggplot(TestMerge, aes(x=pH, y=Fe)) + geom_point()
+
+# Change the point size, and shape
+ggplot(TestMerge, aes(x=pH, y=Fe)) +
+  geom_point(size=3, shape=20) +
+  geom_text(label=TestMerge$Location)
+
+ggplot(TestMerge, aes(x=pH, y=Al)) +
+  geom_point(size=3, shape=20) +
+  geom_text(label=TestMerge$Location)
+
+ggplot(TestMerge, aes(x=pH, y=Si)) +
+  geom_point(size=3, shape=20) +
+  geom_text(label=TestMerge$Location)
+
+
+```
 
 
 
+
+
+---------------------------------------------------
 Make df and pull seawater data
 Compare to LabData in plot
 
