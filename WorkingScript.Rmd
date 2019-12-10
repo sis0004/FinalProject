@@ -28,16 +28,65 @@ write.csv(FieldData, "/Users/saraschredergomes/Desktop/GEOG693/FinalProject/Fiel
 ### config lab raw data
 
 ```{r}
-LabData <- read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv")
-LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv"), header= FALSE, sep= ",", dec = ".", col.names = NULL, stringsAsFactors = FALSE) # stringsasFactors doesnt seem to be working
+
+LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) # stringsasFactors doesnt seem to be working
+
+for (col in colnames(LabData)){
+    is.na(LabData[[col]]) <- startsWith(LabData[[col]], "<")
+}
+
+for (col in colnames(LabData)){
+    if (col == "Sample" || col == "Analyte.Symbol" || col == "Date.Time") 
+        next
+    
+    multiplier <- 1
+    if (LabData[1,col] == "mg/L")
+        multiplier <- .001
+    
+    limit <- as.numeric(LabData[2,col]) * multiplier
+    
+    for(i in 1:nrow(LabData))
+    {
+        if (i < 3) 
+            next
+        if (is.na(LabData[i,col]) == FALSE && LabData[i,col] < limit)
+            is.na(LabData[i,col]) <- TRUE
+    }
+}
+
 ```
+
+
+
+
 
 ```{r}
 MajorIonLabData <- LabData %>% select(Sample,Analyte.Symbol, Na, Si, Fe, As, Cu, Cl, Mg, Ca, K, Br, SO4) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
+
+#mg - 1000
+#ug - 1
+
+for (col in colnames(LabData)){
+    #create variable of uom
+    #determine multiplier
+    #create variable of multiplied value
+    #remove values that are less than multiplied value
+}
 ```
 
 ```{r}
 REELabData <- LabData %>% select(Sample,Analyte.Symbol, Ce, Dy, Er, Eu, Gd, Ho, La, Lu, Nd, Pr, Sm, Sc,Tb, Tm, Yb, Y) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
+```
+
+```{r} 
+# if cell contains '<', replace with NA 
+# https://stackoverflow.com/questions/42978715/if-string-exists-replace-cell-with-na
+
+
+for (col in colnames(REELabData)){
+    is.na(REELabData[[col]]) <- startsWith(REELabData[[col]], "<")
+}
+
 ```
 
 --- I think any calculations will have to be done of subsets of the data. Subset, change to numeric, execture calcualation, and then append the data frame. 
@@ -61,59 +110,5 @@ Make df and pull seawater data
 Compare to LabData in plot
 
 
--------------------------------------------------------------------------------------
-
-### Site Map for Australia Lakes
-```{r}
-library("ggplot2")
-theme_set(theme_bw())
-library("sf")
-library("rnaturalearth")
-library("rnaturalearthdata")
-library("rgeos")
-library("ggspatial")
-library("maps")
-library("lwgeom") 
-library("oz") #install necessary packages for site map ----- I dont need all of these??
-```
 
 
-```{r}
- site_id <- c("Gneiss Lake", "Lake Magic I", "Lake Magic II", "Lake Aerodrome", "Twin Lake West")
-     siteLongs <- c(121.75405, 118.90505, 118.90552, 121.76072, 121.67550)
-     siteLats <- c(-33.21984, -32.43031 ,-32.42846, -32.20949, -33.05573)
-     sites <- data.frame(site_id = site_id, longitude = siteLongs, latitude = siteLats)
-```
-
-```{r}
-world <- ne_countries(scale = "medium", returnclass = "sf")
-class(world)
-```
-
- Inset larger australia map??
-```{r}
-ggplot(data = world) +
-    geom_sf() +
-    geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, 
-        shape = 16, color = "darkred") +
-    coord_sf(xlim = c(116, 123), ylim = c(-30, -35), expand = FALSE)
-```
-```{r}
-ggplot(data = world) +
-    geom_sf() +
-    geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, 
-        shape = 16, color = "darkred") +
-    coord_sf(xlim = NULL, ylim = NULL, expand = FALSE)
-```
-
-```{r}
-(sites <- st_as_sf(sites, coords = c("longitude", "latitude"), 
-    crs = 3112, agr = "constant"))
-# is 3112 the right code?
-ggplot(data = world) +
-    geom_sf() +
-    geom_sf(data = sites, size = 4, shape = 16, color = "darkred") +
-    coord_sf(xlim = NULL, ylim = NULL, expand = FALSE) +
-    geom_sf_label(data=sites, aes(label = site_id), nudge_y = 0.3) +
-    coord_sf(xlim = NULL, ylim = NULL, expand = FALSE)
-```     
