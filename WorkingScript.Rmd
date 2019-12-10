@@ -25,26 +25,31 @@ write.csv(FieldData, "/Users/saraschredergomes/Desktop/GEOG693/FinalProject/Fiel
 ```
 
 
-### config lab raw data
+### config raw lab data
 
 ```{r}
 
-LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) # stringsasFactors doesnt seem to be working
+LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) 
 
+# for any value containing "<" (indicating uncertainty in the measurement), replace value with NA
 for (col in colnames(LabData)){
     is.na(LabData[[col]]) <- startsWith(LabData[[col]], "<")
 }
 
+# exclude columns with no analyte data
 for (col in colnames(LabData)){
     if (col == "Sample" || col == "Analyte.Symbol" || col == "Date.Time") 
         next
     
+# define multiplier to convert units
     multiplier <- 1
     if (LabData[1,col] == "mg/L")
         multiplier <- .001
     
+    # Define detection limit for an analyte
     limit <- as.numeric(LabData[2,col]) * multiplier
     
+    #remove values that are less than multiplied value (detection limit)
     for(i in 1:nrow(LabData))
     {
         if (i < 3) 
@@ -58,19 +63,15 @@ for (col in colnames(LabData)){
 
 
 
-
-
 ```{r}
 MajorIonLabData <- LabData %>% select(Sample,Analyte.Symbol, Na, Si, Fe, As, Cu, Cl, Mg, Ca, K, Br, SO4) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
 
-#mg - 1000
-#ug - 1
 
 for (col in colnames(LabData)){
     #create variable of uom
     #determine multiplier
     #create variable of multiplied value
-    #remove values that are less than multiplied value
+    #
 }
 ```
 
@@ -78,18 +79,15 @@ for (col in colnames(LabData)){
 REELabData <- LabData %>% select(Sample,Analyte.Symbol, Ce, Dy, Er, Eu, Gd, Ho, La, Lu, Nd, Pr, Sm, Sc,Tb, Tm, Yb, Y) #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
 ```
 
+
+
 ```{r} 
-# if cell contains '<', replace with NA 
-# https://stackoverflow.com/questions/42978715/if-string-exists-replace-cell-with-na
-
-
-for (col in colnames(REELabData)){
-    is.na(REELabData[[col]]) <- startsWith(REELabData[[col]], "<")
-}
-
+#merge LabData and FieldData to one df
+#to be done after unit conversions
+# need a fix to include samples 9-11?
+TestMerge <- merge(FieldData, BasicLabData, by.x = "Sample", by.y = "Sample")
 ```
 
---- I think any calculations will have to be done of subsets of the data. Subset, change to numeric, execture calcualation, and then append the data frame. 
 
 --- Making site map, need states for Australia - code?
 
@@ -99,12 +97,7 @@ Plots: pH v. Al (each lake different color)
         Maybe, for each lake plot pH v. series of rare earth elements to see if there is one that stands out?
         Using base R: Dot plots? http://www.sthda.com/english/wiki/dot-charts-r-base-graphs
 
-```{r} 
-#merge LabData and FieldData to one df
-#to be done after unit conversions
-# need a fix to include samples 9-11?
-TestMerge <- merge(FieldData, BasicLabData, by.x = "Sample", by.y = "Sample")
-```
+
 
 Make df and pull seawater data
 Compare to LabData in plot
