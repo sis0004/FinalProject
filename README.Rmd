@@ -1,16 +1,25 @@
-# FinalProject
+# Final Project
 GEOG693 Final Project
 Sara Schreder-Gomes
+
 -------------------------
 
 ### Purpose:
 This project is designed to simplify analysis of lab analyzed major ion chemistry of acid saline lake waters. 
 
 ### Research Question:
-1. How does pH affect chemistry? 
-  - To answer this, we need to look at 
+How does pH affect chemistry? To answer this, we need to look at 
+
   1) the relationship between pH and aluminum, iron, and silica, as these three ions are hypothesized to be controlled by pH and 
+  
   2) if there is any relationship between pH and rare earth elements or any other selected ions.  
+
+### Languages Used:
+ * R
+
+### Requirements:
+- Installation of R and RStudio
+- Internet connection 
 
 ### Products:
 1) A modified dataframe that eliminates values that have uncertainty and values that are below the reported detection threshold. 
@@ -23,10 +32,14 @@ This project is designed to simplify analysis of lab analyzed major ion chemistr
 
 5) A study site map (with inset map) of acid saline lakes in Western Australia. 
 
+### Example of plots produced
+![Plot of pH vs. Fe for 8 acid saline lakes](/Users/saraschredergomes/Desktop/pHvsFe.jpg)
 
-### Languages Used:
- * R
- 
-### 
+### Acknowledgements
+* To my very, _very_ patient boyfriend who taught me how to effectively Google things. Cheers to surviving the greatest communication challenge we've faced yet.
+
+### Notes to instructor:
+- I deviated a bit from my project proposal (I hope this is ok!). Instead of comparing to seawater data and just making more plots, I chose to create a site map of the lakes in Western Australia. 
+- Thank you for a great semester and so many new tools to use!
 
 
