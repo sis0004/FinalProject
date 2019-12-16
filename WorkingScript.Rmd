@@ -78,9 +78,8 @@ REELabData <- LabData %>% select(Sample,Analyte.Symbol, Ce, Dy, Er, Eu, Gd, Ho, 
 
 ```{r} 
 #merge LabData and FieldData to one df
-#to be done after unit conversions
-# need a fix to include samples 9-11? no; only interested in acid saline lakes
-TestMerge <- merge(FieldData, MajorIonLabData, by.x = "Sample", by.y = "Sample")
+
+MergedDatasets <- merge(FieldData, LabData, by.x = "Sample", by.y = "Sample")
 ```
 
 
@@ -88,40 +87,62 @@ TestMerge <- merge(FieldData, MajorIonLabData, by.x = "Sample", by.y = "Sample")
 
 ### pH vs. Al scatter plot using ggplot2
 
-I want to see how it looks if you have Fe, Al, and Si vs. pH where they get different colors
 
-----Get rid of NA value in plot
-----add labels, make scales look nicer
-        -------something is funky with y-axis 
-
-Plots: pH v. Al 
-        pH v. Si 
-        etc.
-        Maybe, for each lake plot pH v. series of rare earth elements to see if there is one that stands out?
-### USE THIS? Using base R: Dot plots? http://www.sthda.com/english/wiki/dot-charts-r-base-graphs
+### Loop / funciton? that creates scatter plots for any element input
 
 ```{r}
 # Create basic scatter plot
-ggplot(TestMerge, aes(x=pH, y=Fe)) + geom_point()
 
-# Change the point size, and shape
-ggplot(TestMerge, aes(x=pH, y=Fe)) +
-  geom_point(size=3, shape=20) +
-  geom_text(label=TestMerge$Location)
+# get user input of elements to use
+# loop through columns entered OR all columns in data frame searching for matches
+# create plot for matched column
 
-ggplot(TestMerge, aes(x=pH, y=Al)) +
-  geom_point(size=3, shape=20) +
-  geom_text(label=TestMerge$Location)
+# for (col in EnteredList)
+#{
+#   find matching column: data <- TestMerge$col
+#   plot : ggplot(TestMerge, aes(x=as.numeric(pH), y=as.numeric(col))) + xlab("pH") + ylab(col) + geom_point() + geom_text(aes(label=Sample), vjust=-.5)  
+#}
 
-ggplot(TestMerge, aes(x=pH, y=Si)) +
+for (col in colnames(MergedDatasets)){
+    if (col == "Sample" || col == "Analyte.Symbol" || col == "Date.Time") 
+        next
+}
+ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Fe))) + xlab("pH") + ylab("Fe (mg/L)") + geom_point(size = 3, shape = 20) + geom_text(aes(label=Sample), vjust=-.5)  
+
+ph <- MergedDatasets$pH
+fe <- MergedDatasets$Fe
+plot(ph, fe, main="Generic Plot", xlab="Ph", ylab="Fe", pch=19, panel.first=grid())
+
+
+```
+
+```{r}
+ggplot(MergedDatasets, aes(x=pH, y=Y))+
   geom_point(size=3, shape=20) +
-  geom_text(label=TestMerge$Location)
+  geom_text(label=MergedDatasets$Location)
 
 
 ```
 
 
+Line plot of rare earth elements
+Goal: see if there are any correlations between pH and the occurance of rare earth elements
 
+```{r}
+library(plotly)
+
+MergedDatasets <- MergedDatasets[order(MergedDatasets$pH),] # sort pH in ascending order
+
+#plot selcted rare earth elements vs. pH as line plot
+pHvsRareEarthElements <- plot_ly(MergedDatasets, x = as.numeric(MergedDatasets$pH), y = as.numeric(MergedDatasets$Gd), name = 'Gd', type = 'scatter', mode = 'lines',
+        line = list(color = 'rgb(205, 12, 24)', width = 2)) %>%
+  add_trace(y = MergedDatasets$Dy, name = 'Dy', line = list(color = 'rgb(22, 96, 167)', width = 2)) %>% #add another element
+  add_trace(y = MergedDatasets$Yb, name = 'Yb', line = list(color = 'rgb(205, 12, 24)', width = 2, dash = 'dash')) %>%
+  
+  layout(title = "Selected Rare Earth Elements vs. pH",
+         xaxis = list(title = "pH"),
+         yaxis = list (title = "Concentration (ug/L)"))
+```
 
 
 ---------------------------------------------------

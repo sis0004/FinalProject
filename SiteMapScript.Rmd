@@ -11,60 +11,54 @@ library("ggplot2")
 theme_set(theme_bw())
 library("sf")
 library("rnaturalearth")
-library("rnaturalearthdata")
-library("rgeos")
+
+
 library("ggspatial")
 library("maps")
 library("lwgeom") 
-library("oz") #install necessary packages for site map ----- I dont need all of these??
+library("oz") #install necessary packages for site map
 ```
 
 
-```{r}
- site_id <- c("Gneiss Lake", "Lake Magic I", "Lake Magic II", "Lake Aerodrome", "Twin Lake West")
-     siteLongs <- c(121.75405, 118.90505, 118.90552, 121.76072, 121.67550)
-     siteLats <- c(-33.21984, -32.43031 ,-32.42846, -32.20949, -33.05573)
-     sites <- data.frame(site_id = site_id, longitude = siteLongs, latitude = siteLats)
-```
+
 
 ```{r}
 world <- ne_countries(scale = "medium", returnclass = "sf")
 class(world)
 ```
 
-```{r}
-oz(states=TRUE, coast=TRUE, xlim = NULL, ylim = NULL, add = FALSE, ar = 1, eps = 0.25, sections = NULL, visible = NULL)
-```
-
- Inset larger australia map??
-```{r}
-ggplot(data = world) +
-    geom_sf() +
-    geom_point(data = sites, aes(x = longitude, y = latitude), size = 3, 
-        shape = 16, color = "darkred") +
-    coord_sf(xlim = c(113, 127), ylim = c(-29, -36), expand = FALSE)
-```
-
 
 ```{r}
-(sites <- st_as_sf(sites, coords = c("longitude", "latitude"), 
-    crs = 3112, agr = "constant"))
-# is 3112 the right code?
-```
 
-```{r}
-ggplot(data = world) +
+site_id <- c("Gneiss Lake", "Lake Magic I", "Lake Magic II", "Lake Aerodrome", "Twin Lake West")
+    siteLongs <- c(121.75405, 118.90505, 118.90552, 121.76072, 121.67550)
+    siteLats <- c(-33.21984, -32.43031 ,-32.42846, -32.20949, -33.05573)
+    sites <- data.frame(site_id = site_id, longitude = siteLongs, latitude = siteLats)
+
+sites <- st_as_sf(sites, coords = c("longitude", "latitude"), 
+    crs = 4326, agr = "constant")
+
+SiteMap <- ggplot(data = world) +
     geom_sf() +
     geom_sf(data = sites, size = 4, shape = 16, color = "darkred") +
-    coord_sf(xlim = c(113, 127), ylim = c(-29, -36), expand = FALSE) +
-    geom_sf_label(data=sites, aes(label = site_id), nudge_y = 0.3) +
-    coord_sf(xlim = c(113, 127), ylim =c(-29, -36), expand = FALSE)
+    coord_sf(xlim = c(113, 127), ylim = c(-29, -36), expand = TRUE) +
+    geom_sf_label(data=sites, aes(label = site_id), nudge_x = 1.2, nudge_y = .4) +
+    coord_sf(xlim = c(113, 127), ylim =c(-29, -36), expand = TRUE)
 ```     
 
-
 ```{r}
-st_as_sf(oz(states=TRUE, coast=TRUE, xlim = NULL, ylim = NULL, add = FALSE, ar = 1, eps = 0.25, sections = NULL, visible = NULL))
+
+AustraliaMap <- ggplot(data = world) + geom_sf() + 
+  ggplot(oz(states=TRUE, coast=TRUE, xlim = c(111, 156), ylim = c(-41, -7), add = FALSE, ar = 1, eps = 0.25, sections = NULL, visible = NULL))
+
 ```
 
-
-
+```{r}
+#map with inset
+library(grid)
+grid.newpage()
+vp_b <- viewport(width = 1, height = 1, x = 0.5, y = 0.5)  # the larger map
+vp_a <- viewport(width = 0.2, height = 0.2, x = 0.85, y = 0.25)  # dimentions and location of inset in the lower right 
+print(SiteMap, vp = vp_b)
+print(AustraliaMap, vp = vp_a)
+```
