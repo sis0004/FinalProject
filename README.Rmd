@@ -6,12 +6,27 @@ Sara Schreder-Gomes
 ### Purpose:
 This project is designed to simplify analysis of lab analyzed major ion chemistry of acid saline lake waters. 
 
-#### Research Questions:
+### Research Question:
 1. How does pH affect chemistry? 
-  - To answer this, we need to look at 1) the relationship between pH and aluminum, iron, and silica, as these three ions are hypothesized to be controlled by pH and 2) if there is any relationship between pH and rare earth elements or any other selected ions.  
-2. How different are these salt lake waters from seawater?
-  - To answer this, we will compare individual and average values of acid saline lake ion concentrations and compare them to average seawater composition. 
-  
+  - To answer this, we need to look at 
+  1) the relationship between pH and aluminum, iron, and silica, as these three ions are hypothesized to be controlled by pH and 
+  2) if there is any relationship between pH and rare earth elements or any other selected ions.  
 
+### Products:
+1) A modified dataframe that eliminates values that have uncertainty and values that are below the reported detection threshold. 
+
+2) A text file that reports average values of ions. 
+
+3) A dataframe that combines Field Data and Lab Data for samples for further analysis and a dataframe of selected elements that less bulky.
+  
+4) Plots that show the relationship between major ions and pH, and between selected rare earth elements and pH. 
+
+5) A study site map (with inset map) of acid saline lakes in Western Australia. 
+
+
+### Languages Used:
+ * R
+ 
+### 
 
 

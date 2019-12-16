@@ -17,6 +17,7 @@ library("ggspatial")
 library("maps")
 library("lwgeom") 
 library("oz") #install necessary packages for site map
+library("grid")
 ```
 
 
@@ -47,10 +48,8 @@ SiteMap <- ggplot(data = world) +
 ```     
 
 ```{r}
-
-AustraliaMap <- ggplot(data = world) + geom_sf() + 
-  ggplot(oz(states=TRUE, coast=TRUE, xlim = c(111, 156), ylim = c(-41, -7), add = FALSE, ar = 1, eps = 0.25, sections = NULL, visible = NULL))
-
+AustraliaMap <- ggplot(oz(states=TRUE, coast=TRUE, xlim = c(111, 156), ylim = c(-41, -7), add = FALSE, ar = 1, eps = 0.25, sections = NULL, visible = NULL))
+#ggplot(data = world) + geom_sf() + 
 ```
 
 ```{r}
