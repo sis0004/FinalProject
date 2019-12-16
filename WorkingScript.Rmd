@@ -38,7 +38,7 @@ FieldData <- data.frame("Sample" = c(NA, NA, NA, NA, "KCB 1", "KCB 2", "KCB 3", 
            "Longitude" = c(NA, NA, NA, NA,121.75405, 118.90505, 118.90552, 121.76072, 121.67550, -68.68759, -68.69366, -69.62456,NA,NA,NA),
             stringsAsFactors = FALSE)
 
-write.csv(FieldData, "/Users/saraschredergomes/Desktop/GEOG693/FinalProject/FieldData.csv", row.names = FALSE)
+write.csv(FieldData, "/Users/saraschredergomes/Desktop/GEOG693/FinalProject/data/FieldData.csv", row.names = FALSE)
 
 FieldData %>%
   kable() %>%
@@ -50,7 +50,7 @@ FieldData %>%
 
 ```{r}
 
-LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) 
+LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/data/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) 
 
 # for any value containing "<" (indicating uncertainty in the measurement), replace value with NA
 for (col in colnames(LabData)){
