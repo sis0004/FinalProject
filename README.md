@@ -31,7 +31,7 @@ How does pH affect chemistry? To answer this, we need to look at
 4) A study site map (with inset map) of acid saline lakes in Western Australia. 
 
 ### Example of plots produced
-![Plot of pH vs. Fe for 8 acid saline lakes](/Users/saraschredergomes/Desktop/pHvsFe.jpg)
+![Plot of pH vs. Fe for 8 acid saline lakes](pHvsFe.jpg)
 
 ### Acknowledgements
 * To my very, _very_ patient boyfriend who taught me how to effectively Google things. Cheers to surviving the greatest communication challenge we've faced yet.
