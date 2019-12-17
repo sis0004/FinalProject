@@ -24,13 +24,11 @@ How does pH affect chemistry? To answer this, we need to look at
 ### Products:
 1) A modified dataframe that eliminates values that have uncertainty and values that are below the reported detection threshold. 
 
-2) A text file that reports average values of ions. 
-
-3) A dataframe that combines Field Data and Lab Data for samples for further analysis and a dataframe of selected elements that less bulky.
+2) A dataframe that combines Field Data and Lab Data for samples for further analysis and a dataframe of selected elements that less bulky.
   
-4) Plots that show the relationship between major ions and pH, and between selected rare earth elements and pH. 
+3) Plots that show the relationship between major ions and pH, and between selected rare earth elements and pH. 
 
-5) A study site map (with inset map) of acid saline lakes in Western Australia. 
+4) A study site map (with inset map) of acid saline lakes in Western Australia. 
 
 ### Example of plots produced
 ![Plot of pH vs. Fe for 8 acid saline lakes](/Users/saraschredergomes/Desktop/pHvsFe.jpg)
