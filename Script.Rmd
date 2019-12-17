@@ -1,5 +1,14 @@
-### Install packages
-List packages to install
+# Final Project
+GEOG693 Final Project
+
+Sara Schreder-Gomes
+
+-------------------------
+
+#### Install packages
+The user must install the following packages: 
+
+tidyverse, base, ggplot2, plotly, knitr, kableExtra, sf, rnaturalearth, maps, grid
 ```{r, libraries, include =FALSE}
 library("tidyverse")
 library("base")
@@ -7,10 +16,8 @@ library("ggplot2")
 library("plotly")
 library("knitr")
 library("kableExtra")
-
 library("sf")
 library("rnaturalearth")
-
 library("maps")
 
 library("oz") #install necessary packages for site map
@@ -21,9 +28,9 @@ library("grid")
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Enter Field data
+#### Enter Field data
 
-#### I had to do some manual data entry in Excel to set up the field data in the format I wanted it to be in. I decided to do this instead of trying to import from a PDF and manually manipulating from there.
+I had to do some manual data entry in Excel to set up the field data in the format I wanted it to be in. I decided to do this instead of trying to import from a PDF and manually manipulating from there.
 
 ```{r}
 FieldData <- data.frame("Sample" = c(NA, NA, NA, NA, "KCB 1", "KCB 2", "KCB 3", "KCB 4", "KCB 5", "KCB 6", "KCB 7", "KCB 8", "KCB 9", "KCB 10", "KCB 11"),
@@ -46,10 +53,9 @@ FieldData %>%
 ```
 
 
-### Munge the raw lab data
+#### Munge the raw lab data
 
 ```{r}
-
 LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/data/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) 
 
 # for any value containing "<" (indicating uncertainty in the measurement), replace value with NA
@@ -79,10 +85,9 @@ for (col in colnames(LabData)){
             is.na(LabData[i,col]) <- TRUE
     }
 }
-
 ```
 
-### Parse data into smaller data tables that are easier to read and search in
+#### Create data frames with selected elements for further analysis
 ```{r}
 MajorIonLabData <- LabData %>% select(Sample,Analyte.Symbol, Na, Si, Fe, Al, Cl, Mg, Ca, K, Br, SO4) 
 #choose the ion concentrations for analysis. This makes it easy to add analytes to the shorter data frame at a later point.
@@ -102,7 +107,7 @@ REELabData %>%
 ```
 
 ```{r} 
-#merge LabData and FieldData to one df
+#merge LabData and FieldData to one df 
 MergedDatasets <- merge(FieldData, LabData, by.x = "Sample", by.y = "Sample")
 
 MergedDatasets %>%
@@ -111,46 +116,37 @@ MergedDatasets %>%
 ```
 This merge does not include three samples from the lab data because they are not acid. They aren't necessary for further analysis with these research questions. 
 
-### Loop / function? that creates scatter plots for any element input
+#### Create scatter plots for element input
 
 ```{r}
 # Create basic scatter plot
 
-#___ Make this a function
+#   Make this a function
     #Usage: pHvs(elementAbbrev, concentration unit?)
     # throw error if abbrev isnt in the data. Message: 'Element abbreviation not found in data'
 
-pHvs <- function(Element){
-    TestPlot <- ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Element))) +
-        xlab("pH") + ylab("Fe (mg/L)") + geom_point(size = 3, shape = 20) +
-        geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. Fe content for Acid Saline Lake Systems")
-return(TestPlot)
-}
-
-# for (col in EnteredList)
-#{
-#   find matching column: data <- TestMerge$col
-
-#   plot : ggplot(TestMerge, aes(x=as.numeric(pH), y=as.numeric(ElAbbrev))) + xlab("pH") + ylab(ElAbbrev) + geom_point() + geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. ElAbbrev (unit)")
-
+#Tried to make this into a function, but there's a small problem somewhere. 
+#     pHvs <- function(Element){
+#     TestPlot <- ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Element))) +
+#        xlab("pH") + ylab("Fe (mg/L)") + geom_point(size = 3, shape = 20) +
+#        geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. Fe content for Acid Saline Lake Systems")
+#return(TestPlot)
 #}
 
-for (col in colnames(MergedDatasets)){
-    if (col == "Sample" || col == "Analyte.Symbol" || col == "Date.Time") 
-        next #ignore columns that do not contain data
-}
 
 ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Fe))) + xlab("pH") + ylab("Fe (mg/L)") + geom_point(size = 3, shape = 20) + geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. Fe content for Acid Saline Lake Systems")
 #by setting aes(x and y) as.numeric, it fixes a data coersion problem. In previous coercion, they were set to 'chr', which led to samples with 'NA' values being plotted and a very "wonky" y-axis.
 
+ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Si))) + xlab("pH") + ylab("Si (mg/L)") + geom_point(size = 3, shape = 20) + geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. Si content for Acid Saline Lake Systems")
 
-# PUT FUNCTION DOWN BELOW
+ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Al))) + xlab("pH") + ylab("Al (mg/L)") + geom_point(size = 3, shape = 20) + geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. Al content for Acid Saline Lake Systems")
 ```
 
-### Line plot of rare earth elements
+#### Create line plot of rare earth elements
+
 Goal: see if there are any correlations between pH and the occurance of rare earth elements
-ex: a straight (ish) line might indicate that the occurance of that element might be controlled by pH
-    helps answer the research question: How does pH affect water chemistry?
+
+ex: a straight (ish) line might indicate that the occurance of that element might be controlled by pH helps answer the research question: How does pH affect water chemistry?
 
 ```{r}
 # sort pH in ascending order
@@ -161,15 +157,13 @@ pHvsRareEarthElements <- plot_ly(MergedDatasets, x = as.numeric(MergedDatasets$p
         line = list(color = 'rgb(205, 12, 24)', width = 2)) %>%
   add_trace(y = MergedDatasets$Dy, name = 'Dy', line = list(color = 'rgb(22, 96, 167)', width = 2)) %>% #add another element
   add_trace(y = MergedDatasets$Yb, name = 'Yb', line = list(color = 'rgb(205, 12, 24)', width = 2, dash = 'dash')) %>%
-  
   layout(title = "Selected Rare Earth Elements vs. pH",
          xaxis = list(title = "pH"),
          yaxis = list (title = "Concentration (ug/L)"))
-
 pHvsRareEarthElements
 ```
 
-### Study site map
+#### Study site map
 
 ```{r}
 world <- ne_countries(scale = "medium", returnclass = "sf")
