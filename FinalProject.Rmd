@@ -45,7 +45,7 @@ FieldData <- data.frame("Sample" = c(NA, NA, NA, NA, "KCB 1", "KCB 2", "KCB 3", 
            "Longitude" = c(NA, NA, NA, NA,121.75405, 118.90505, 118.90552, 121.76072, 121.67550, -68.68759, -68.69366, -69.62456,NA,NA,NA),
             stringsAsFactors = FALSE)
 
-write.csv(FieldData, "/Users/saraschredergomes/Desktop/GEOG693/FinalProject/data/FieldData.csv", row.names = FALSE)
+write.csv(FieldData, "data/FieldData.csv", row.names = FALSE)
 
 FieldData %>%
   kable() %>%
@@ -56,7 +56,7 @@ FieldData %>%
 #### Munge the raw lab data
 
 ```{r}
-LabData <- as.data.frame(read.csv("/Users/saraschredergomes/Desktop/GEOG693/FinalProject/data/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) 
+LabData <- as.data.frame(read.csv("data/BrineCompostions_ActLabsResults_RAWData.csv", stringsAsFactors = FALSE), header= FALSE, sep= ",", dec = ".", col.names = NULL) 
 
 # for any value containing "<" (indicating uncertainty in the measurement), replace value with NA
 for (col in colnames(LabData)){
@@ -133,6 +133,7 @@ This merge does not include three samples from the lab data because they are not
 #return(TestPlot)
 #}
 
+# I am under the gun grading, but would be happy to work this out with you next semester.  Would need to update the title to reflect element choice as well.  But should be possible.
 
 ggplot(MergedDatasets, aes(x=as.numeric(pH), y=as.numeric(Fe))) + xlab("pH") + ylab("Fe (mg/L)") + geom_point(size = 3, shape = 20) + geom_text(aes(label=Sample), vjust=-.5) + ggtitle("pH vs. Fe content for Acid Saline Lake Systems")
 #by setting aes(x and y) as.numeric, it fixes a data coersion problem. In previous coercion, they were set to 'chr', which led to samples with 'NA' values being plotted and a very "wonky" y-axis.
@@ -189,6 +190,8 @@ SiteMap <- ggplot(data = world) +
 
 #Create inset map
 AustraliaMap <- ggplot(data = world) + geom_sf() + geom_sf(data = sites, size = 4, shape = 16, color = "darkred") + coord_sf(xlim = c(111, 156), ylim = c(-41, -7)) 
+
+AustraliaMap
 ```
 
 ```{r}
@@ -200,3 +203,4 @@ vp_a <- viewport(width = 0.3, height = 0.3, x = 0.85, y = 0.25)  # dimentions an
 print(SiteMap, vp = vp_b)
 print(AustraliaMap, vp = vp_a)
 ```
+#well done on the inset!
